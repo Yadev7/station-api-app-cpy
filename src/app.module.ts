@@ -44,8 +44,29 @@ import { DispensersModule } from './dispensers/dispensers.module';
 
 import { NozzlesModule } from './nozzles/nozzles.module';
 
+import { SuppliersModule } from './suppliers/suppliers.module';
+
+import { DevisModule } from './devis/devis.module';
+
+import { DevisProductsModule } from './devis-products/devis-products.module';
+
+import { SupplierOrdersModule } from './supplier-orders/supplier-orders.module';
+
+import { SupplierOrderDetailsModule } from './supplier-order-details/supplier-order-details.module';
+
+import { SupplierBlsModule } from './supplier-bls/supplier-bls.module';
+
+import { SupplierBlDetailsModule } from './supplier-bl-details/supplier-bl-details.module';
+
 @Module({
   imports: [
+    SupplierBlDetailsModule,
+    SupplierBlsModule,
+    SupplierOrderDetailsModule,
+    SupplierOrdersModule,
+    DevisProductsModule,
+    DevisModule,
+    SuppliersModule,
     NozzlesModule,
     DispensersModule,
     IsletsModule,
