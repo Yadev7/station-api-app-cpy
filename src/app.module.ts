@@ -58,8 +58,23 @@ import { SupplierBlsModule } from './supplier-bls/supplier-bls.module';
 
 import { SupplierBlDetailsModule } from './supplier-bl-details/supplier-bl-details.module';
 
+import { SupplierIncomesModule } from './supplier-incomes/supplier-incomes.module';
+
+import { SupplierBlTankStoragesModule } from './supplier-bl-tank-storages/supplier-bl-tank-storages.module';
+
+import { SupplierBlDepositStoragesModule } from './supplier-bl-deposit-storages/supplier-bl-deposit-storages.module';
+
+import { SupplierIncomePaiementsModule } from './supplier-income-paiements/supplier-income-paiements.module';
+
+import { SupplierPaiementDetailsModule } from './supplier-paiement-details/supplier-paiement-details.module';
+
 @Module({
   imports: [
+    SupplierPaiementDetailsModule,
+    SupplierIncomePaiementsModule,
+    SupplierBlDepositStoragesModule,
+    SupplierBlTankStoragesModule,
+    SupplierIncomesModule,
     SupplierBlDetailsModule,
     SupplierBlsModule,
     SupplierOrderDetailsModule,

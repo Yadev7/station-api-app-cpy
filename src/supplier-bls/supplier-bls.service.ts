@@ -1,3 +1,6 @@
+import { SupplierBlDepositStoragesService } from '../supplier-bl-deposit-storages/supplier-bl-deposit-storages.service';
+import { SupplierBlDepositStorage } from '../supplier-bl-deposit-storages/domain/supplier-bl-deposit-storage';
+
 import { SupplierOrdersService } from '../supplier-orders/supplier-orders.service';
 import { SupplierOrder } from '../supplier-orders/domain/supplier-order';
 
@@ -6,6 +9,8 @@ import {
   Injectable,
   HttpStatus,
   UnprocessableEntityException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateSupplierBlDto } from './dto/create-supplier-bl.dto';
 import { UpdateSupplierBlDto } from './dto/update-supplier-bl.dto';
@@ -16,6 +21,9 @@ import { SupplierBl } from './domain/supplier-bl';
 @Injectable()
 export class SupplierBlsService {
   constructor(
+    @Inject(forwardRef(() => SupplierBlDepositStoragesService))
+    private readonly supplierBlDepositStorageService: SupplierBlDepositStoragesService,
+
     private readonly supplierOrderService: SupplierOrdersService,
 
     // Dependencies here
@@ -25,6 +33,19 @@ export class SupplierBlsService {
   async create(createSupplierBlDto: CreateSupplierBlDto) {
     // Do not remove comment below.
     // <creating-property />
+    const SupplierBlDepositStorageRefObject =
+      await this.supplierBlDepositStorageService.findById(
+        createSupplierBlDto.SupplierBlDepositStorageRef.id,
+      );
+    if (!SupplierBlDepositStorageRefObject) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          SupplierBlDepositStorageRef: 'notExists',
+        },
+      });
+    }
+    const SupplierBlDepositStorageRef = SupplierBlDepositStorageRefObject;
 
     let SupplierOrderId: SupplierOrder | null | undefined = undefined;
 
@@ -48,6 +69,8 @@ export class SupplierBlsService {
     return this.supplierBlRepository.create({
       // Do not remove comment below.
       // <creating-property-payload />
+      SupplierBlDepositStorageRef,
+
       amountPriceHt: createSupplierBlDto.amountPriceHt,
 
       SuppBlScan: createSupplierBlDto.SuppBlScan,
@@ -88,6 +111,24 @@ export class SupplierBlsService {
   ) {
     // Do not remove comment below.
     // <updating-property />
+    let SupplierBlDepositStorageRef: SupplierBlDepositStorage | undefined =
+      undefined;
+
+    if (updateSupplierBlDto.SupplierBlDepositStorageRef) {
+      const SupplierBlDepositStorageRefObject =
+        await this.supplierBlDepositStorageService.findById(
+          updateSupplierBlDto.SupplierBlDepositStorageRef.id,
+        );
+      if (!SupplierBlDepositStorageRefObject) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            SupplierBlDepositStorageRef: 'notExists',
+          },
+        });
+      }
+      SupplierBlDepositStorageRef = SupplierBlDepositStorageRefObject;
+    }
 
     let SupplierOrderId: SupplierOrder | null | undefined = undefined;
 
@@ -111,6 +152,8 @@ export class SupplierBlsService {
     return this.supplierBlRepository.update(id, {
       // Do not remove comment below.
       // <updating-property-payload />
+      SupplierBlDepositStorageRef,
+
       amountPriceHt: updateSupplierBlDto.amountPriceHt,
 
       SuppBlScan: updateSupplierBlDto.SuppBlScan,

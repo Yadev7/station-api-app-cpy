@@ -1,7 +1,14 @@
+import { SupplierBlDepositStorage } from '../../supplier-bl-deposit-storages/domain/supplier-bl-deposit-storage';
 import { SupplierOrder } from '../../supplier-orders/domain/supplier-order';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class SupplierBl {
+  @ApiProperty({
+    type: () => SupplierBlDepositStorage,
+    nullable: false,
+  })
+  SupplierBlDepositStorageRef: SupplierBlDepositStorage;
+
   @ApiProperty({
     type: () => Number,
     nullable: true,

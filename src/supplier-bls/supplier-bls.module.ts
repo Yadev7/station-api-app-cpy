@@ -1,7 +1,9 @@
+import { SupplierBlDepositStoragesModule } from '../supplier-bl-deposit-storages/supplier-bl-deposit-storages.module';
 import { SupplierOrdersModule } from '../supplier-orders/supplier-orders.module';
 import {
   // do not remove this comment
   Module,
+  forwardRef,
 } from '@nestjs/common';
 import { SupplierBlsService } from './supplier-bls.service';
 import { SupplierBlsController } from './supplier-bls.controller';
@@ -9,6 +11,8 @@ import { RelationalSupplierBlPersistenceModule } from './infrastructure/persiste
 
 @Module({
   imports: [
+    forwardRef(() => SupplierBlDepositStoragesModule),
+
     SupplierOrdersModule,
 
     // do not remove this comment

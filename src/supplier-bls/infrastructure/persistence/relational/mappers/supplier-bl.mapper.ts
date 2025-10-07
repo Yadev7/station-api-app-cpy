@@ -1,4 +1,5 @@
 import { SupplierBl } from '../../../../domain/supplier-bl';
+import { SupplierBlDepositStorageMapper } from '../../../../../supplier-bl-deposit-storages/infrastructure/persistence/relational/mappers/supplier-bl-deposit-storage.mapper';
 
 import { SupplierOrderMapper } from '../../../../../supplier-orders/infrastructure/persistence/relational/mappers/supplier-order.mapper';
 
@@ -7,6 +8,13 @@ import { SupplierBlEntity } from '../entities/supplier-bl.entity';
 export class SupplierBlMapper {
   static toDomain(raw: SupplierBlEntity): SupplierBl {
     const domainEntity = new SupplierBl();
+    if (raw.SupplierBlDepositStorageRef) {
+      domainEntity.SupplierBlDepositStorageRef =
+        SupplierBlDepositStorageMapper.toDomain(
+          raw.SupplierBlDepositStorageRef,
+        );
+    }
+
     domainEntity.amountPriceHt = raw.amountPriceHt;
 
     domainEntity.SuppBlScan = raw.SuppBlScan;
@@ -32,6 +40,13 @@ export class SupplierBlMapper {
 
   static toPersistence(domainEntity: SupplierBl): SupplierBlEntity {
     const persistenceEntity = new SupplierBlEntity();
+    if (domainEntity.SupplierBlDepositStorageRef) {
+      persistenceEntity.SupplierBlDepositStorageRef =
+        SupplierBlDepositStorageMapper.toPersistence(
+          domainEntity.SupplierBlDepositStorageRef,
+        );
+    }
+
     persistenceEntity.amountPriceHt = domainEntity.amountPriceHt;
 
     persistenceEntity.SuppBlScan = domainEntity.SuppBlScan;

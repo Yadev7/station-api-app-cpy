@@ -1,3 +1,5 @@
+import { SupplierBlDepositStorageDto } from '../../supplier-bl-deposit-storages/dto/supplier-bl-deposit-storage.dto';
+
 import { SupplierOrderDto } from '../../supplier-orders/dto/supplier-order.dto';
 
 import {
@@ -24,6 +26,15 @@ import {
 } from '@nestjs/swagger';
 
 export class CreateSupplierBlDto {
+  @ApiProperty({
+    required: true,
+    type: () => SupplierBlDepositStorageDto,
+  })
+  @ValidateNested()
+  @Type(() => SupplierBlDepositStorageDto)
+  @IsNotEmptyObject()
+  SupplierBlDepositStorageRef: SupplierBlDepositStorageDto;
+
   @ApiProperty({
     required: false,
     type: () => Number,
